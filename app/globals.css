@@ -1,0 +1,16 @@
+@import '/css/webflow.shared.css';
+@import '/css/monolog-custom.css';
+
+/* Ensure HTML and body take full width and height with proper smooth scroll behavior */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #080807;
+  color: #dedcd6;
+  overflow-x: hidden;
+}
