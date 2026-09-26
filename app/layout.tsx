@@ -30,9 +30,29 @@ export default function RootLayout({
         <link rel="icon" type="image/webp" href="/arxenovasocial-logo.webp" />
         <link rel="stylesheet" href="/css/webflow.shared.css" />
         <link rel="stylesheet" href="/css/monolog-custom.css" />
+        {/* Capability classes must not mutate the root before React hydrates it. */}
+        <Script
+          id="webflow-capabilities"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `!function(o,c){var n=c.documentElement;n.classList.add("w-mod-js");("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&n.classList.add("w-mod-touch")}(window,document);`,
+          }}
+        />
         <script
           dangerouslySetInnerHTML={{
-            __html: `!function(o,c){var n=c.documentElement,t=" w-mod-";n.className+=t+"js",("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&(n.className+=t+"touch")}(window,document);`,
+            __html: `/* Capture native history before hydration. Only Barba uses this bridge;
+Next keeps its own wrappers for routes outside the legacy container. */
+window.history.scrollRestoration="manual";
+window.__legacyHistory={
+  pushState:window.history.pushState.bind(window.history),
+  replaceState:window.history.replaceState.bind(window.history)
+};
+window.addEventListener("popstate",function(event){
+  var barba=window.barba;
+  if(event.state?.from!=="barba"||!barba||!barba.history||!document.querySelector('[data-barba="container"]'))return;
+  event.stopImmediatePropagation();
+  barba.go(window.location.href,"popstate",event);
+},true);`,
           }}
         />
       </head>

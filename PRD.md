@@ -2,8 +2,17 @@
 
 **Produk:** ARXENOVA Website  
 **Repository:** `D:\arxenovasocial.com-v2`  
-**Status:** Draft baseline / kontrak migrasi  
+**Status:** Kontrak migrasi aktif; Fase 1 Project Process selesai **43/43** dan mendapat sign-off stakeholder pada 2026-09-26. Candidate aktif pada aplikasi utama; fallback restart tersedia melalui `PROCESS_USE_LEGACY=1` dan source legacy tetap dipertahankan
 **Prioritas utama:** Tidak merusak tampilan atau perilaku website yang sedang aktif
+**Fase 2 FAQ (2026-09-26):** selesai **7/7** dan mendapat sign-off stakeholder. `FaqSection` aktif secara default; rollback restart tersedia melalui `FAQ_USE_LEGACY=1`. Build dan FAQ 10/10 lulus; root hydration seluruh route candidate/legacy masing-masing 2/2; regression Process 4/4. Validasi setelah aktivasi mengulang FAQ 10/10 dan route/HTTP kedua mode. Pixel sign-off lima viewport memenuhi 0,5% (maksimum 0,009405%). Cleanup accordion/hover terarah dipromosikan ke runtime bersama. Paket keputusan: `docs/PHASE-2-SIGNOFF.md`.
+**Fase 3 Problems (2026-09-26):** selesai **8/8** dan mendapat sign-off stakeholder. `ProblemsSection` aktif secara default; rollback restart tersedia melalui `PROBLEMS_USE_LEGACY=1`. Sign-off pasca-aktivasi 10/10, hydration seluruh route kedua mode masing-masing 2/2, Process regression 4/4, HTTP kedua mode tanpa kegagalan, dan pixel difference lima viewport 0%. Paket keputusan: `docs/PHASE-3-SIGNOFF.md`.
+**Fase 4 CTA (2026-09-26):** selesai **5/5** dan mendapat sign-off stakeholder. `CtaSection` aktif secara default; rollback restart tersedia melalui `CTA_USE_LEGACY=1`. Sign-off pasca-aktivasi 10/10, hydration seluruh route kedua mode masing-masing 2/2, Process regression 4/4, HTTP kedua mode tanpa kegagalan, dan pixel difference lima viewport 0%. Paket keputusan: `docs/PHASE-4-SIGNOFF.md`.
+**Temuan integrasi terbaru:** shell dan cleanup runtime telah diperbaiki secara guarded. Build final lulus; candidate/fallback masing-masing lulus 8/8 untuk integration, scoped ownership, dan hydration seluruh sembilan route. Review manual media, timing/easing, visual, dan behavior telah diterima stakeholder. Paket keputusan: `D:\arxenovasocial.com-v2\docs\PHASE-1-SIGNOFF.md`.
+
+**Audit shared terbaru:** empat penutup div berlebih diperbaiki secara deterministik oleh loader tanpa mengubah `data/home.html`. Runtime promoted mengelola cleanup Lenis, SplitText, matchMedia, theme, cursor, ticker, timer, RAF, ScrollTrigger, dan video; ownership acceptance tetap merupakan instrumentasi Chromium terarah, bukan heap proof universal.
+
+
+
 
 ## 1. Ringkasan
 
@@ -306,3 +315,12 @@ Program migrasi selesai hanya ketika:
 - CSS Webflow dan `monolog-runtime.js` tidak dihapus pada pilot.
 - Tidak ada perubahan desain atau copy selama migrasi pilot.
 - Seluruh pekerjaan eksekusi dilacak di `TASK.md`.
+
+## 16. Implementasi Harness Fase 0
+
+- Perintah `npm run baseline` menjalankan smoke test terhadap `/`, `/work`, dan seluruh project detail tanpa browser dependency.
+- Output `artifacts/baseline/manifest.json` mencatat status route/aset lokal, slug parity, metadata, link, media, section, root state, tiga siklus HTTP, serta hash snapshot HTML.
+- Snapshot response HTML disimpan di `artifacts/baseline/html/` untuk perbandingan struktural.
+- Prosedur reproduksi, capture visual manual, coexistence candidate, comparison threshold, dan rollback didokumentasikan di `docs/BASELINE.md`.
+- `npm run baseline:browser` menggunakan Playwright Chromium untuk 45 screenshot, console/network, layout/wrapping, interaction recording, runtime counters, dan tiga siklus client navigation. Bukti disimpan di `artifacts/browser/`.
+- Browser automation tidak menggantikan review manusia atau memory profiling. Capture menu/About/sound/cursor dan seluruh animation state masih harus dilengkapi; approval pemilik proyek tetap wajib sebelum pilot.

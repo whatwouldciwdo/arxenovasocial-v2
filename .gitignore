@@ -21,3 +21,14 @@ Desktop.ini
 
 # Debug logs
 npm-debug.log*
+
+# TypeScript incremental cache
+*.tsbuildinfo
+
+# Local migration evidence and Playwright output
+artifacts/
+playwright-report/
+test-results/
+
+# Kilo local configuration and managed worktrees
+.kilo/
