@@ -91,7 +91,7 @@ export default function FaqSection({
       <div id="w-node-_175f460a-5a43-8e1a-5c1c-d7cade701cba-de701ca4" className="faq_home_content">
         <img loading="lazy" src="/images/teams/fadel-febrian.jpeg" alt="A headshot of Fadel Febrian Alexander" className="faq_home_headshot" />
         <p className="faq_home_p u-text-style-h5">Got more questions? Chat with Fadel Febrian Alexander.</p>
-        <a data-btn-default="" data-wf--global-button-main--variant="base" href="https://cal.com/byhuy/project-intro-call" target="_blank" className="g_btn_main w-inline-block">
+        <a data-btn-default="" data-wf--global-button-main--variant="base" href="https://wa.me/6281285313084?text=Hi%20Fadel%2C%20I%27d%20like%20to%20book%20a%20call" target="_blank" className="g_btn_main w-inline-block">
           <div className="g_btn_text_contain"><div className="g_btn_text u-text-style-small u-text-trim-off">Book a call with Fadel Febrian Alexander</div></div>
           <div className="g_btn_aside_wrap">
             <div className="g_btn_aside_bg" />

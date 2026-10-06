@@ -39,7 +39,7 @@ export const faqItems: readonly FaqItem[] = [
     question: 'What do you need to start working together?',
     answers: [
       [text("We'll discuss your specific needs during a discovery call and we will provide a tailored proposal to match your project needs. ")],
-      [text('Afterwards, we just need a signed contract proposal and the initial project deposit payment. That’s all. We make onboarding fast so we can get to work ASAP. Ready to get started? '), { type: 'link', href: 'https://cal.com/byhuy/project-intro-call?duration=45', text: 'Book a call with Fadel Febrian Alexander' }],
+      [text('Afterwards, we just need a signed contract proposal and the initial project deposit payment. That’s all. We make onboarding fast so we can get to work ASAP. Ready to get started? '), { type: 'link', href: 'https://wa.me/6281285313084?text=Hi%20Fadel%2C%20I%27d%20like%20to%20book%20a%20call', text: 'Book a call with Fadel Febrian Alexander' }],
     ],
   },
   {

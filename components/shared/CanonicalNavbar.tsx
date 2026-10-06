@@ -85,7 +85,7 @@ export default function CanonicalNavbar({ variant, ...rootProps }: CanonicalNavb
             </button>
           </div>
           <div className={"navbar_cta_contain"}>
-            <a data-btn-default={""} data-wf--global-button-main--variant={"base"} href={"https://cal.com/byhuy/project-intro-call"} target={"_blank"} className={"g_btn_main w-inline-block"}>
+            <a data-btn-default={""} data-wf--global-button-main--variant={"base"} href={"https://wa.me/6281285313084?text=Hi%20Fadel%2C%20I%27d%20like%20to%20start%20a%20project"} target={"_blank"} className={"g_btn_main w-inline-block"}>
               <div className={"g_btn_text_contain"}>
                 <div className={"g_btn_text u-text-style-small u-text-trim-off"}>
                   {"Start a project"}

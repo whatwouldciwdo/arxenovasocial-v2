@@ -254,7 +254,7 @@ const CanonicalFooter = forwardRef<HTMLElement, CanonicalFooterProps>(function C
                   </a>
                 </li>
                 <li data-wf--footer-link--variant={"base"} className={"footer_nav_li"}>
-                  <a href={"https://cal.com/byhuy/project-intro-call"} data-hover-highlight={"link"} target={"_blank"} className={"footer_nav_text w-inline-block"}>
+                  <a href={"https://wa.me/6281285313084?text=Hi%20Fadel%2C%20I%27d%20like%20to%20get%20in%20touch"} data-hover-highlight={"link"} target={"_blank"} className={"footer_nav_text w-inline-block"}>
                     <div data-hover-heading={""} className={"footer_nav_span u-text-style-h3"}>
                       {"Contact"}
                     </div>

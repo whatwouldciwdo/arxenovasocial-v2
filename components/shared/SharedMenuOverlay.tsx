@@ -43,7 +43,7 @@ export default function SharedMenuOverlay() {
         <ul className="menu_contain_nav u-gap-small u-hflex-left-center">
           <NavigationItem><button id="" data-open-modal="" data-hover-highlight="link" className="footer_nav_text"><LinkContent label="About" /></button></NavigationItem>
           {navigation.map(item => <NavigationItem key={item.href}><InternalNavigationLink href={item.href} navigationHref={item.href === '#work' ? '/#work' : `/${item.href}`} data-hover-highlight="link" className="footer_nav_text w-inline-block"><LinkContent label={item.label} /></InternalNavigationLink></NavigationItem>)}
-          <NavigationItem><a href="https://cal.com/byhuy/project-intro-call" data-hover-highlight="link" target="_blank" className="footer_nav_text w-inline-block"><LinkContent label="Contact" /></a></NavigationItem>
+          <NavigationItem><a href="https://wa.me/6281285313084?text=Hi%20Fadel%2C%20I%27d%20like%20to%20get%20in%20touch" data-hover-highlight="link" target="_blank" className="footer_nav_text w-inline-block"><LinkContent label="Contact" /></a></NavigationItem>
         </ul>
       </div>
       <div className="menu_popup_collection w-dyn-list">
