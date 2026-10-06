@@ -118,7 +118,7 @@ export default function Navbar() {
 
         {/* Contact CTA */}
         <a
-          href="mailto:hello@bymonolog.com"
+          href="mailto:hello@arxenovasocial.com"
           data-cursor-hover=""
           style={{
             fontSize: '14px',

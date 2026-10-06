@@ -1,18 +1,24 @@
 import React from 'react';
 import { homeCta } from '../../data/home/cta';
-import { ctaAwardsHtml } from './cta-artwork';
+import { ctaAwards, type SvgArtworkNode } from './cta-artwork';
 
 const arrowPath = 'M8.90954 9.09046L9 3L2.90954 3.09046L2.90213 4.32367L6.86437 4.25391L2.55914 8.55914L3.44086 9.44086L7.74609 5.13563L7.68708 9.10862L8.90954 9.09046Z';
 const variant = 'w-variant-c2ee8580-9f06-5e9a-1461-dda4efd8c449';
+
+function renderArtwork(node: SvgArtworkNode | string, key: number): React.ReactNode {
+  if (typeof node === 'string') return node;
+  return React.createElement(node.tag, { ...node.attributes, key },
+    node.children?.map((child, index) => renderArtwork(child, index)));
+}
 
 function ButtonArrow({ absolute = false }: { readonly absolute?: boolean }) {
   return <svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 12 12" fill="none" className={`g_btn_svg ${variant}${absolute ? ' is-absolute' : ''}`}><path d={arrowPath} fill="currentColor" /></svg>;
 }
 
 // Markup only: the legacy runtime owns scroll translation and CTA animation.
-export default function CtaSection() {
+export default function CtaSection({ themeSection }: { readonly themeSection?: 'dark' } = {}) {
   return (
-    <section className="cta_home_wrap">
+    <section className="cta_home_wrap" data-theme-section={themeSection}>
       <div className="cta_home_contain">
         <div className="cta_home_inner">
           <div className="cta_home_header">
@@ -39,7 +45,6 @@ export default function CtaSection() {
         <div className="cta_home_bottom">
           <div data-wf--spacer--section-space="main" className="u-section-spacer w-variant-60a7ad7d-02b0-6682-95a5-2218e6fd1490" />
           <div className="cta_home_proof">
-            <div className="cta_home_awards" dangerouslySetInnerHTML={{ __html: ctaAwardsHtml }} />
             <blockquote className="cta_home_testimonial_message u-text-style-h5">{homeCta.testimonial}</blockquote>
             <div className="cta_home_testimonee u-text-mono">{homeCta.testimonee}</div>
           </div>

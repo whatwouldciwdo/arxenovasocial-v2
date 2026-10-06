@@ -1,9 +1,33 @@
-import React from 'react';
-import { faqItems } from '../../data/home/faq';
-import { faqArrowPath, faqCss } from './faq-artwork';
+'use client';
 
-// Markup only: the delegated legacy runtime owns accordion and hover behavior.
-export default function FaqSection() {
+import React, { useState } from 'react';
+import { faqItems, type FaqAnswerNode } from '../../data/home/faq';
+import { faqArrowPath } from './faq-artwork';
+import { nextFaqIndex } from './faq-state';
+
+function renderAnswer(nodes: readonly FaqAnswerNode[]): React.ReactNode[] {
+  return nodes.reduce<React.ReactNode[]>((rendered, node, index) => {
+    if (node.type === 'text' || node.type === 'nbsp') {
+      const value = node.type === 'text' ? node.value : '\u00a0';
+      const previous = rendered.at(-1);
+      if (typeof previous === 'string') rendered[rendered.length - 1] = previous + value;
+      else rendered.push(value);
+    } else if (node.type === 'br') rendered.push(<br key={index} />);
+    else rendered.push(<a key={index} href={node.href}>{node.text}</a>);
+    return rendered;
+  }, []);
+}
+
+export default function FaqSection({
+  modularBehavior = false,
+  reactOwnership = false,
+}: {
+  modularBehavior?: boolean;
+  reactOwnership?: boolean;
+}) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const behavior = reactOwnership || modularBehavior ? 'modular' : undefined;
+
   return (
     <section id="faqs" className="faq_home_wrap u-grid-custom">
       <div id="w-node-_175f460a-5a43-8e1a-5c1c-d7cade701ca5-de701ca4" className="faq_home_left">
@@ -14,27 +38,53 @@ export default function FaqSection() {
       </div>
       <div id="w-node-_175f460a-5a43-8e1a-5c1c-d7cade701ca8-de701ca4" className="faq_home_main">
         <h2 className="faq_home_heading u-text-style-h2">Here&apos;s what you need to consider before partnering with us.</h2>
-        <div data-accordion-close-siblings="true" data-accordion-css-init="" className="g_faq_collection w-dyn-list">
+        <div
+          data-accordion-close-siblings="true"
+          data-accordion-css-init={reactOwnership ? undefined : ''}
+          data-faq-behavior={behavior}
+          data-faq-owner={reactOwnership ? 'react' : undefined}
+          className="g_faq_collection w-dyn-list"
+        >
           <div data-index-group="values" id="w-node-_175f460a-5a43-8e1a-5c1c-d7cade701cac-de701ca4" role="list" className="g_faq_list w-dyn-items">
-            {faqItems.map((item) => (
-              <div key={item.question} data-accordion-status="not-active" role="listitem" className="g_faq_item w-dyn-item">
-                <button data-accordion-toggle="" data-hover-highlight="accordion" className="accordion_css_item_top">
-                  <span className="accordion_css_item_bg" />
-                  <h3 data-hover-heading="" className="accordion_css_item_heading u-text-trim-off u-text-style-large">{item.question}</h3>
-                  <div className="accordion_css_square" />
-                </button>
-                <div className="accordion_css_item_bottom">
-                  <div className="accordion_css_bottom_wrap">
-                    <div className="accordion_css_bottom_contain">
-                      <div className="accordion_css_bottom_rich u-rich-text u-text-style-small w-richtext">
-                        {item.answers.map((answer, index) => <p key={index} dangerouslySetInnerHTML={{ __html: answer.html }} />)}
+            {faqItems.map((item, itemIndex) => {
+              const active = reactOwnership && activeIndex === itemIndex;
+              const headingId = `faq-question-${itemIndex + 1}`;
+              const regionId = `faq-answer-${itemIndex + 1}`;
+
+              return (
+                <div key={item.question} data-accordion-status={active ? 'active' : 'not-active'} role="listitem" className="g_faq_item w-dyn-item">
+                  <button
+                    type={reactOwnership ? 'button' : undefined}
+                    id={reactOwnership ? headingId : undefined}
+                    data-accordion-toggle=""
+                    data-hover-highlight="accordion"
+                    aria-expanded={reactOwnership ? active : undefined}
+                    aria-controls={reactOwnership ? regionId : undefined}
+                    className="accordion_css_item_top"
+                    onClick={reactOwnership ? () => setActiveIndex(current => nextFaqIndex(current, itemIndex)) : undefined}
+                  >
+                    <span className="accordion_css_item_bg" />
+                    <h3 data-hover-heading="" className="accordion_css_item_heading u-text-trim-off u-text-style-large">{item.question}</h3>
+                    <div className="accordion_css_square" />
+                  </button>
+                  <div
+                    id={reactOwnership ? regionId : undefined}
+                    role={reactOwnership ? 'region' : undefined}
+                    aria-labelledby={reactOwnership ? headingId : undefined}
+                    className="accordion_css_item_bottom"
+                  >
+                    <div className="accordion_css_bottom_wrap">
+                      <div className="accordion_css_bottom_contain">
+                        <div className="accordion_css_bottom_rich u-rich-text u-text-style-small w-richtext">
+                          {item.answers.map((answer, index) => <p key={index}>{renderAnswer(answer)}</p>)}
+                        </div>
                       </div>
                     </div>
                   </div>
+                  {itemIndex === 0 ? <div className="faq_css w-embed"><link rel="stylesheet" href="/css/faq-section.css" /></div> : null}
                 </div>
-                <div className="faq_css w-embed"><style dangerouslySetInnerHTML={{ __html: faqCss }} /></div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

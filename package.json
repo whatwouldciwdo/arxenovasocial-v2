@@ -7,14 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test:sound": "node --test scripts/sound-controller.test.mjs",
+    "test:app-router-runtime": "node --test scripts/app-router-runtime.test.mjs",
     "baseline": "node scripts/baseline.mjs",
-    "baseline:browser": "playwright test"
+    "baseline:browser": "playwright test",
+    "audit:assets": "node scripts/asset-audit.mjs",
+    "test:asset-audit": "node --test scripts/asset-audit.test.mjs",
+    "audit:css": "node scripts/css-usage-audit.mjs",
+    "test:css-audit": "node --test scripts/css-usage-audit.test.mjs"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.1",
-    "gsap": "^3.12.5",
     "howler": "^2.2.4",
-    "lenis": "^1.1.14",
     "next": "^14.2.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

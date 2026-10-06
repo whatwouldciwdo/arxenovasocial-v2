@@ -1,7 +1,16 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Howl } from 'howler';
+import { createSoundController, type SoundController } from './sound-controller';
 
 interface SoundContextType {
   soundEnabled: boolean;
@@ -10,91 +19,51 @@ interface SoundContextType {
   playSelect: () => void;
 }
 
-const SoundContext = createContext<SoundContextType>({
+const disabledContext: SoundContextType = {
   soundEnabled: false,
   toggleSound: () => {},
   playTap: () => {},
   playSelect: () => {},
-});
+};
+
+const SoundContext = createContext<SoundContextType>(disabledContext);
 
 export const useSound = () => useContext(SoundContext);
 
-export function SoundProvider({ children }: { children: React.ReactNode }) {
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const soundsRef = useRef<{ taps: Howl[]; select: Howl | null }>({
-    taps: [],
-    select: null,
-  });
+export function SoundProvider({ children, enabled = false }: {
+  children: React.ReactNode;
+  enabled?: boolean;
+}) {
+  const controllerRef = useRef<SoundController | null>(null);
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
-    // Check localStorage preference
-    const saved = localStorage.getItem('monolog_sound_enabled');
-    if (saved !== null) {
-      setSoundEnabled(saved === 'true');
-    }
-
-    // Initialize Howl sounds
-    soundsRef.current.taps = [
-      new Howl({ src: ['/audio/tap_01.mp3'], volume: 0.15 }),
-      new Howl({ src: ['/audio/tap_02.mp3'], volume: 0.15 }),
-      new Howl({ src: ['/audio/tap_03.mp3'], volume: 0.15 }),
-      new Howl({ src: ['/audio/tap_04.mp3'], volume: 0.15 }),
-      new Howl({ src: ['/audio/tap_05.mp3'], volume: 0.15 }),
-    ];
-
-    soundsRef.current.select = new Howl({
-      src: ['/audio/select.mp3'],
-      volume: 0.2,
+    if (!enabled) return;
+    const HowlCtor = (typeof window !== 'undefined' && (window as unknown as { Howl?: typeof Howl }).Howl) || Howl;
+    const controller = createSoundController({
+      createHowl: options => new HowlCtor(options),
+      document,
+      storage: localStorage,
     });
-
-    // Global listener for interactive sound on buttons and links
-    const handleMouseOver = (e: MouseEvent) => {
-      if (!soundEnabled) return;
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('a, button, [role="button"], [data-cursor-hover]')) {
-        playTap();
-      }
-    };
-
-    const handleClick = (e: MouseEvent) => {
-      if (!soundEnabled) return;
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('a, button, [role="button"]')) {
-        playSelect();
-      }
-    };
-
-    window.addEventListener('mouseover', handleMouseOver, { passive: true });
-    window.addEventListener('click', handleClick, { passive: true });
-
+    controllerRef.current = controller;
+    setSoundEnabled(controller.getEnabled());
+    const unsubscribe = controller.subscribe(setSoundEnabled);
     return () => {
-      window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('click', handleClick);
+      unsubscribe();
+      controller.destroy();
+      controllerRef.current = null;
     };
-  }, [soundEnabled]);
+  }, [enabled]);
 
-  const toggleSound = () => {
-    setSoundEnabled((prev) => {
-      const next = !prev;
-      localStorage.setItem('monolog_sound_enabled', String(next));
-      return next;
-    });
-  };
+  const toggleSound = useCallback(() => controllerRef.current?.toggle(), []);
+  const playTap = useCallback(() => controllerRef.current?.playTap(), []);
+  const playSelect = useCallback(() => controllerRef.current?.playSelect(), []);
+  const value = useMemo(() => enabled ? {
+    soundEnabled,
+    toggleSound,
+    playTap,
+    playSelect,
+  } : disabledContext, [enabled, playSelect, playTap, soundEnabled, toggleSound]);
 
-  const playTap = () => {
-    if (!soundEnabled || soundsRef.current.taps.length === 0) return;
-    const randomIndex = Math.floor(Math.random() * soundsRef.current.taps.length);
-    soundsRef.current.taps[randomIndex].play();
-  };
-
-  const playSelect = () => {
-    if (!soundEnabled || !soundsRef.current.select) return;
-    soundsRef.current.select.play();
-  };
-
-  return (
-    <SoundContext.Provider value={{ soundEnabled, toggleSound, playTap, playSelect }}>
-      {children}
-    </SoundContext.Provider>
-  );
+  return <SoundContext.Provider value={value}>{children}</SoundContext.Provider>;
 }

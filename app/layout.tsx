@@ -1,5 +1,13 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { SoundProvider } from '@/components/SoundProvider';
+import { SOUND_OWNER_ATTRIBUTE, SOUND_OWNER_VALUE } from '@/components/sound-controller';
+import SharedOverlayProvider from '@/components/shared/SharedOverlayProvider';
+import AppRouterRuntimeProvider from '@/components/app-router/AppRouterRuntimeProvider';
+import {
+  SHARED_OVERLAY_OWNER_ATTRIBUTE,
+  SHARED_OVERLAY_OWNER_VALUE,
+} from '@/components/shared/shared-overlay-controller';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,6 +25,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Temporary opt-in until monolog-runtime honors the ownership marker below.
+  const soundProviderEnabled = process.env.NEXT_PUBLIC_SOUND_PROVIDER_ENABLED === '1';
+  const modularFooterEnabled = process.env.NEXT_PUBLIC_FOOTER_BEHAVIOR === 'modular';
+  const sharedOverlayProviderEnabled = process.env.SHARED_OVERLAYS_OWNER === 'react';
+  const appRouterRuntimeEnabled = process.env.NEXT_PUBLIC_APP_ROUTER_RUNTIME === '1';
+  const rootOwnership = {
+    ...(soundProviderEnabled ? { [SOUND_OWNER_ATTRIBUTE]: SOUND_OWNER_VALUE } : {}),
+    ...(sharedOverlayProviderEnabled
+      ? { [SHARED_OVERLAY_OWNER_ATTRIBUTE]: SHARED_OVERLAY_OWNER_VALUE }
+      : {}),
+    ...(appRouterRuntimeEnabled ? { 'data-app-router-runtime': '1' } : {}),
+  };
   return (
     <html
       lang="en"
@@ -24,6 +44,7 @@ export default function RootLayout({
       data-wf-domain="bymonolog.com"
       data-wf-page="68b652bbd6c64a44c8fe3e53"
       data-wf-site="68b652bbd6c64a44c8fe3e5e"
+      {...rootOwnership}
     >
       <head>
         <link rel="preconnect" href="https://cdn.prod.website-files.com" crossOrigin="anonymous" />
@@ -33,28 +54,13 @@ export default function RootLayout({
         {/* Capability classes must not mutate the root before React hydrates it. */}
         <Script
           id="webflow-capabilities"
+          src="/js/webflow-capabilities.js"
           strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `!function(o,c){var n=c.documentElement;n.classList.add("w-mod-js");("ontouchstart"in o||o.DocumentTouch&&c instanceof DocumentTouch)&&n.classList.add("w-mod-touch")}(window,document);`,
-          }}
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `/* Capture native history before hydration. Only Barba uses this bridge;
-Next keeps its own wrappers for routes outside the legacy container. */
-window.history.scrollRestoration="manual";
-window.__legacyHistory={
-  pushState:window.history.pushState.bind(window.history),
-  replaceState:window.history.replaceState.bind(window.history)
-};
-window.addEventListener("popstate",function(event){
-  var barba=window.barba;
-  if(event.state?.from!=="barba"||!barba||!barba.history||!document.querySelector('[data-barba="container"]'))return;
-  event.stopImmediatePropagation();
-  barba.go(window.location.href,"popstate",event);
-},true);`,
-          }}
-        />
+        <Script src="/js/legacy-history-bridge.js" strategy="beforeInteractive" />
+        {sharedOverlayProviderEnabled ? (
+          <Script src="/js/shared-overlay-owner-bridge.js" strategy="beforeInteractive" />
+        ) : null}
       </head>
       <body
         data-barba="wrapper"
@@ -64,9 +70,16 @@ window.addEventListener("popstate",function(event){
         data-scroll-time="0"
         className="body"
       >
-        {children}
+        <SoundProvider enabled={soundProviderEnabled}>
+          <SharedOverlayProvider enabled={sharedOverlayProviderEnabled}>
+            {appRouterRuntimeEnabled ? (
+              <AppRouterRuntimeProvider>{children}</AppRouterRuntimeProvider>
+            ) : children}
+          </SharedOverlayProvider>
+        </SoundProvider>
 
-        {/* Unified Monolog Runtime (jQuery + Webflow + GSAP + Three.js + Lenis + Howler + Barba + Bundle) */}
+        {/* Persistent bridge is inert until a marked FAQ root is initialized by the runtime. */}
+        <Script src="/js/faq-behavior.js" strategy="beforeInteractive" />
         <Script src="/js/monolog-runtime.js" strategy="afterInteractive" />
       </body>
     </html>

@@ -1,0 +1,40 @@
+.accordion_css_item_contain {
+  transition: transform 0.75s var(--animation-secondary);
+}
+.accordion_css_item_bottom {
+  transition: grid-template-rows 0.6s cubic-bezier(0.625, 0.05, 0, 1);
+}
+.accordion_css_item_bg {
+  transition: background-color 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+.accordion_css_square {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.35, 1),
+              background-color 0.65s cubic-bezier(0.16, 1, 0.35, 1);
+}
+[data-accordion-status="active"] .accordion_css_item_bottom {
+  grid-template-rows: 1fr;
+}
+[data-accordion-status="active"] .accordion_css_square {
+  background-color: var(--swatch--black-400);
+  transform: translateX(-10px);
+}
+[data-accordion-status="active"] .accordion_css_item_heading {
+  color: var(--swatch--black-400);
+  transform: translateX(10px);
+}
+[data-accordion-status="active"] .accordion_css_item_bg {
+  background-color: var(--swatch--beige-100);
+}
+@media (hover: hover) and (pointer: fine) {
+  .accordion_css_item_top:hover .accordion_css_square {
+    background-color: var(--swatch--black-400);
+    transform: translateX(-10px);
+  }
+  .accordion_css_item_top:hover .accordion_css_item_heading {
+    color: var(--swatch--black-400);
+    transform: translateX(10px);
+  }
+  .accordion_css_item_top:hover .accordion_css_item_bg {
+    background-color: var(--swatch--beige-100);
+  }
+}

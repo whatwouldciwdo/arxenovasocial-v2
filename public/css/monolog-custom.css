@@ -110,6 +110,35 @@
   }
 }
 
+/* Work filter states. */
+[data-btn-default] .filter-btn {
+  transition: color 0.375s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.375s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.filter-btn[data-filter-status="active"] {
+  background-color: #131313;
+  color: #EFEEEC;
+}
+
+.hero_work_item[data-filter-status="active"] {
+  transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 1;
+  visibility: visible;
+  position: relative;
+}
+
+.hero_work_item[data-filter-status="transition-out"] {
+  transition: opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  visibility: visible;
+}
+
+.hero_work_item[data-filter-status="not-active"] {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
 
 
 

@@ -3,6 +3,7 @@ node_modules/
 
 # Next.js build output
 .next/
+.next-*/
 out/
 
 # Environment
@@ -32,3 +33,14 @@ test-results/
 
 # Kilo local configuration and managed worktrees
 .kilo/
+
+# Dev-only files (kept locally, not deployed)
+tests/
+scripts/
+docs/
+PRD.md
+TASK.md
+playwright.config.ts
+tsconfig.work-filter-check.json
+.env.*
+!.env.production.example

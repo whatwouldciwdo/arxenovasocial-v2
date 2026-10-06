@@ -14,5 +14,3 @@ export function getHomeHtml(): string {
   }
   return normalized.replace(problemsProcessBoundary, repairedProblemsProcessBoundary);
 }
-
-export const HOME_HTML = getHomeHtml();

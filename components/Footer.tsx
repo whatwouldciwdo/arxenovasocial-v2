@@ -83,11 +83,11 @@ export default function Footer() {
               Get In Touch
             </h4>
             <a
-              href="mailto:hello@bymonolog.com"
+              href="mailto:hello@arxenovasocial.com"
               data-cursor-hover=""
               style={{ color: 'inherit', textDecoration: 'none', fontSize: '18px', fontWeight: 600, display: 'block', marginBottom: '8px' }}
             >
-              hello@bymonolog.com
+              hello@arxenovasocial.com
             </a>
             <p style={{ fontSize: '14px', opacity: 0.7, margin: 0 }}>
               Jakarta & Cilegon (ID)
