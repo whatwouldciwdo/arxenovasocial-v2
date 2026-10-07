@@ -877,31 +877,6 @@ html.wf-design-mode .guide_wrap {
   }
 }
 
-/* Keep the mobile navigation trigger visible and tappable. */
-@media screen and (max-width: 767px) {
-  .navbar_contain.u-grid-custom {
-    overflow: visible;
-  }
-
-  .navbar_cta_wrap.u-text-style-small.u-text-trim-off {
-    position: relative;
-    z-index: 2;
-    flex: 0 0 auto;
-  }
-
-  .navbar_cta_contain {
-    display: none;
-  }
-
-  .navbar_menu_btn {
-    z-index: 3;
-    flex: 0 0 auto;
-    min-width: 4.5rem;
-    min-height: 2.75rem;
-    pointer-events: auto;
-  }
-}
-
 @media (hover: hover) and (pointer: fine) {
   .accordion_css_item_top:hover {
     & .accordion_css_square {
