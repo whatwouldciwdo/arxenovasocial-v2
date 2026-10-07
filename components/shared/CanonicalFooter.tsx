@@ -272,7 +272,7 @@ const CanonicalFooter = forwardRef<HTMLElement, CanonicalFooterProps>(function C
                 {"(STUDIO DETAILS)"}
               </div>
               <div className={"footer_middle_wrap"}>
-                <a href={"https://webflow.com/@byhuy"} target={"_blank"} className={"footer_middle_webflow w-inline-block"}>
+                <a target={"_blank"} className={"footer_middle_webflow w-inline-block"}>
                   <div className={"footer_middle_text u-sr-only"}>
                     {"Webflow certified partner page"}
                   </div>
