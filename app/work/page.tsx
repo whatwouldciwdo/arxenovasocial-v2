@@ -15,12 +15,22 @@ import { FOOTER_SOURCE_SHA256 } from '@/data/shared-footer';
 import { WORK_HTML } from '@/data/html-work';
 import tree, { WORK_MENU_TREE_SOURCE_SHA256 } from '@/data/work-menu-tree';
 import { WORK_HERO_SOURCE_SHA256 } from '@/data/work/hero';
+import type { Metadata } from 'next';
+import { OG_IMAGE } from '@/data/seo';
 
 export const dynamic = 'force-dynamic';
 
-export const metadata = {
-  title: "ARXENOVA | Our Client's Success Stories",
-  description: "Explore ARXENOVA's portfolio of brand strategy, visual identity, and website projects.",
+export const metadata: Metadata = {
+  title: 'Portfolio Jasa Website Cilegon & Serang',
+  description: 'Lihat portfolio ARXENOVA dalam jasa pembuatan website, design website, SEO, brand strategy, dan visual identity untuk bisnis di Cilegon, Serang, dan sekitarnya.',
+  alternates: { canonical: '/work' },
+  openGraph: {
+    type: 'website',
+    url: '/work',
+    title: 'Portfolio Jasa Website Cilegon & Serang | ARXENOVA',
+    description: 'Portfolio website, SEO, branding, dan pengalaman digital pilihan dari ARXENOVA.',
+    images: [OG_IMAGE],
+  },
 };
 
 function render(node: any, key = 0): React.ReactNode {

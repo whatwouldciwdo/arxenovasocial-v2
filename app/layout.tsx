@@ -4,6 +4,17 @@ import { SoundProvider } from '@/components/SoundProvider';
 import { SOUND_OWNER_ATTRIBUTE, SOUND_OWNER_VALUE } from '@/components/sound-controller';
 import SharedOverlayProvider from '@/components/shared/SharedOverlayProvider';
 import AppRouterRuntimeProvider from '@/components/app-router/AppRouterRuntimeProvider';
+import JsonLd from '@/components/seo/JsonLd';
+import {
+  ABSOLUTE_LOGO_URL,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  LOCAL_SEO_KEYWORDS,
+  OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from '@/data/seo';
 import {
   SHARED_OVERLAY_OWNER_ATTRIBUTE,
   SHARED_OVERLAY_OWNER_VALUE,
@@ -11,13 +22,87 @@ import {
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'ARXENOVA | Brand and Web Design Studio founded by Fadel Febrian Alexander',
-  description: 'We building change-making branding and websites for established creative brands who refuse to be underestimated. Trusted by OH Architecture, Vinamilk, and many other leading brands.',
-  openGraph: {
-    title: 'ARXENOVA | Brand and Web Design Studio founded by Fadel Febrian Alexander',
-    description: 'We building change-making branding and websites for established creative brands who refuse to be underestimated.',
-    images: [{ url: 'https://cdn.prod.website-files.com/68b652bbd6c64a44c8fe3e5e/6a4df8b2aef24dbe74b85600_OG.jpg' }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Jasa Website & SEO Cilegon dan Serang | ARXENOVA',
+    template: '%s | ARXENOVA',
   },
+  description: SITE_DESCRIPTION,
+  keywords: [...LOCAL_SEO_KEYWORDS, 'web design Banten', 'website development Banten', 'ARXENOVA'],
+  authors: [{ name: 'ARXENOVA', url: SITE_URL }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'id_ID',
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: 'Jasa Website & SEO Cilegon dan Serang | ARXENOVA',
+    description: SITE_DESCRIPTION,
+    images: [{ url: OG_IMAGE, alt: 'ARXENOVA — jasa website dan SEO Cilegon dan Serang' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Jasa Website & SEO Cilegon dan Serang | ARXENOVA',
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
+};
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['Organization', 'ProfessionalService'],
+  '@id': `${SITE_URL}/#organization`,
+  name: SITE_NAME,
+  url: SITE_URL,
+  logo: ABSOLUTE_LOGO_URL,
+  image: OG_IMAGE,
+  description: SITE_DESCRIPTION,
+  email: CONTACT_EMAIL,
+  telephone: CONTACT_PHONE,
+  founder: {
+    '@type': 'Person',
+    name: 'Fadel Febrian Alexander',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Cilegon' },
+    { '@type': 'City', name: 'Serang' },
+    { '@type': 'AdministrativeArea', name: 'Banten' },
+  ],
+  knowsAbout: [...LOCAL_SEO_KEYWORDS, 'Brand Strategy', 'Visual Identity', 'UI/UX Design'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'sales',
+    telephone: CONTACT_PHONE,
+    email: CONTACT_EMAIL,
+    areaServed: 'ID',
+    availableLanguage: ['Indonesian', 'English'],
+  },
+};
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  inLanguage: ['id-ID', 'en'],
+  publisher: { '@id': `${SITE_URL}/#organization` },
 };
 
 export default function RootLayout({
@@ -70,6 +155,7 @@ export default function RootLayout({
         data-scroll-time="0"
         className="body"
       >
+        <JsonLd data={[organizationSchema, websiteSchema]} />
         <SoundProvider enabled={soundProviderEnabled}>
           <SharedOverlayProvider enabled={sharedOverlayProviderEnabled}>
             {appRouterRuntimeEnabled ? (
