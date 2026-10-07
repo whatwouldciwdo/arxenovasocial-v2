@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title description">
+  <title id="title">ARXENOVA About image placeholder</title>
+  <desc id="description">Temporary abstract placeholder to be replaced with the final studio image.</desc>
+  <rect width="1200" height="900" fill="#181715"/>
+  <circle cx="210" cy="180" r="250" fill="#393632"/>
+  <circle cx="1010" cy="720" r="330" fill="#524d47"/>
+  <path d="M0 690 370 330l250 245 175-170 405 390v105H0Z" fill="#080807" opacity=".72"/>
+  <g fill="#e8e8e3" font-family="Arial, sans-serif" text-anchor="middle">
+    <text x="600" y="415" font-size="30" letter-spacing="8">ARXENOVA</text>
+    <text x="600" y="470" font-size="18" letter-spacing="4" opacity=".7">ABOUT IMAGE PLACEHOLDER</text>
+  </g>
+</svg>
