@@ -1,11 +1,13 @@
-import { PROJECTS } from '@/data/projects';
+import { WORK_HERO } from '@/data/work/hero';
 import { CONTACT_EMAIL, CONTACT_PHONE, LOCAL_SEO_KEYWORDS, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '@/data/seo';
 
 export const dynamic = 'force-static';
 
 export function GET() {
-  const projects = PROJECTS.map(
-    (project) => `- [${project.name}](${SITE_URL}/projects/${project.slug}): ${project.description}`,
+  const projects = WORK_HERO.projects.map(
+    (project) => project.href
+      ? `- [${project.title}](${project.href}): ${project.description}`
+      : `- ${project.title}: ${project.description}`,
   ).join('\n');
 
   const content = `# ${SITE_NAME}
