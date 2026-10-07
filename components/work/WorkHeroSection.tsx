@@ -31,7 +31,7 @@ function WorkCard({
     >
       <div className="works_work_link">
         <div className="clickable_wrap">
-          <a target="_blank" href={project.href} className="clickable_link w-inline-block">
+          <a target={project.href ? '_blank' : undefined} href={project.href ?? undefined} className="clickable_link w-inline-block">
             <span className="clickable_text u-sr-only">{project.title}</span>
           </a>
           {/* Preserve the canonical empty type attribute rather than supplying a new button default. */}
@@ -152,7 +152,7 @@ export default function WorkHeroSection({ reactFilters = false }: { readonly rea
           <div data-layout-status="active" data-layout-type="grid" className="hero_work_collection w-dyn-list">
             <div data-count-group="work" aria-live="polite" role="list" className="hero_work_list u-grid-custom w-dyn-items">
               {WORK_HERO.projects.map((project, index) => (
-                <WorkCard key={project.href} project={project} reactOwned={reactOwned} status={statuses[index]} />
+                <WorkCard key={project.title} project={project} reactOwned={reactOwned} status={statuses[index]} />
               ))}
             </div>
           </div>

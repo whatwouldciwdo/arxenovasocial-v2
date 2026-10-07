@@ -73,7 +73,7 @@ export default function SharedAboutModal({ variant, ...rootProps }: SharedAboutM
                 </div>
               </div>
               <div className={"about_modal_video_wrap"}>
-                <video src={""} loop={true} muted={true} playsInline={true} autoPlay={true} className={"about_modal_video u-background-skeleton about-modal-video"} />
+                <video src={"https://byhuy.b-cdn.net/WebM/Looping%20About%20photo.webm"} loop={true} muted={true} playsInline={true} autoPlay={true} className={"about_modal_video u-background-skeleton about-modal-video"} />
                 <div className={"about_modal_overlay"} />
                 <div className={"about_modal_text u-text-style-h2"}>
                   {"listen"}
