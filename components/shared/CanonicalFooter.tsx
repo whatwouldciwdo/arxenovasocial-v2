@@ -244,7 +244,7 @@ const CanonicalFooter = forwardRef<HTMLElement, CanonicalFooterProps>(function C
                   </InternalNavigationLink>
                 </li>
                 <li data-wf--footer-link--variant={"base"} className={"footer_nav_li"}>
-                  <a href={"https://byhuy.gumroad.com/"} data-hover-highlight={"link"} target={"_blank"} className={"footer_nav_text w-inline-block"}>
+                  <a data-hover-highlight={"link"} className={"footer_nav_text w-inline-block"}>
                     <div data-hover-heading={""} className={"footer_nav_span u-text-style-h3"}>
                       {"Resources"}
                     </div>
